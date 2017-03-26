@@ -1,6 +1,7 @@
 package com.lucid.backgroundcreator;
 
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
@@ -20,13 +21,18 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     private volatile Bitmap backgroundBitmap;
 
-    private volatile int screenWidth = 100;
-    private volatile int screenHeight = 100;
+    private volatile Point screenSize;
+
+    public MyRenderer(Point screen)
+    {
+        screenSize = screen;
+    }
 
     public Bitmap getBackgroundBitmap()
     {
         return backgroundBitmap;
     }
+
 
     public void setRandomColor(float[] c)
     {
@@ -43,7 +49,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glClearColor(randomColor[0], randomColor[1], randomColor[2], 1.0f);
-        backgroundBitmap = createBitmapFromGLSurface(0, 0, screenWidth, screenHeight);
+        backgroundBitmap = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {

@@ -1,6 +1,7 @@
 package com.lucid.backgroundcreator;
 
 import android.app.WallpaperManager;
+import android.graphics.Point;
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,12 +15,18 @@ public class MainActivity extends AppCompatActivity {
     private GLSurfaceView GLView;
     private MyGLSurfaceView myGLSurfView;
 
+    private Point screenSize;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myGLSurfView = new MyGLSurfaceView(this);
+        screenSize = new Point();
+        getWindowManager().getDefaultDisplay().getRealSize(screenSize);
+        System.out.println("screen size is: " + screenSize);
+
+        myGLSurfView = new MyGLSurfaceView(this, screenSize);
         GLView = myGLSurfView;
 
         FrameLayout frameLayout = (FrameLayout)findViewById(R.id.myFrameLayout);
