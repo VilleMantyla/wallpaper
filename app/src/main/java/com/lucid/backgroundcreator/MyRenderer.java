@@ -23,9 +23,12 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     private volatile Point screenSize;
 
+    private Triangle triangle;
+
     public MyRenderer(Point screen)
     {
         screenSize = screen;
+
     }
 
     public Bitmap getBackgroundBitmap()
@@ -43,12 +46,14 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         randomColor = new float[3];
+        triangle = new Triangle();
     }
 
     public void onDrawFrame(GL10 unused) {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glClearColor(randomColor[0], randomColor[1], randomColor[2], 1.0f);
+        triangle.draw();
         backgroundBitmap = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);
     }
 
@@ -56,10 +61,22 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         GLES20.glViewport(0, 0, width, height);
     }
 
+    public static int loadShader(int type, String shaderCode){
+
+        // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
+        // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
+        int shader = GLES20.glCreateShader(type);
+
+        // add the source code to the shader and compile it
+        GLES20.glShaderSource(shader, shaderCode);
+        GLES20.glCompileShader(shader);
+
+        return shader;
+    }
 
     public static Bitmap createBitmapFromGLSurface(int xStart, int yStart, int w, int h){
-        int openGLBitmapBuffer[] = new int[w * h];
-        int bitmapSource[] = new int[w * h];
+        int[] openGLBitmapBuffer = new int[w * h];
+        int[] bitmapSource = new int[w * h];
         IntBuffer intBuffer = IntBuffer.wrap(openGLBitmapBuffer);
         intBuffer.position(0);
         GLES20.glReadPixels(xStart, yStart, w, h, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, intBuffer);
