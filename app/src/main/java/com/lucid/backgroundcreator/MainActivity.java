@@ -53,6 +53,6 @@ public class MainActivity extends AppCompatActivity {
      */
     public void changePhoneBackground(View v) throws IOException {
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
-        wallpaperManager.setBitmap(myGLSurfView.getmRenderer().getBackgroundBitmap());
+        wallpaperManager.setBitmap(myGLSurfView.getmRenderer().getWallpaper());
     }
 }

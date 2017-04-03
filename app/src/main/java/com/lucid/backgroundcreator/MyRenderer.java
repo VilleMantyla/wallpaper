@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 
 import java.nio.IntBuffer;
 
@@ -19,11 +20,18 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     private volatile float[] randomColor;
 
-    private volatile Bitmap backgroundBitmap;
+    /**/
+    private volatile Bitmap wallpaper;
 
     private volatile Point screenSize;
 
     private Triangle triangle;
+
+    // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
+    private final float[] mMVPMatrix = new float[16];
+    private final float[] mProjectionMatrix = new float[16];
+    private final float[] mViewMatrix = new float[16];
+
 
     public MyRenderer(Point screen)
     {
@@ -31,9 +39,9 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     }
 
-    public Bitmap getBackgroundBitmap()
+    public Bitmap getWallpaper()
     {
-        return backgroundBitmap;
+        return wallpaper;
     }
 
 
@@ -46,19 +54,35 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         randomColor = new float[3];
-        triangle = new Triangle();
+        triangle = new Triangle(0.95f, new float[]{0,0,0});
     }
 
     public void onDrawFrame(GL10 unused) {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glClearColor(randomColor[0], randomColor[1], randomColor[2], 1.0f);
-        triangle.draw();
-        backgroundBitmap = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);
+        // Set the camera position (View matrix)
+        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+
+        // Calculate the projection and view transformation
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+
+        // Draw shape
+        triangle.draw(mMVPMatrix);
+
+        /* Create wallpaper */
+        wallpaper = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
+
+        float ratio = (float) width / height;
+
+        // this projection matrix is applied to object coordinates
+        // in the onDrawFrame() method
+        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+
     }
 
     public static int loadShader(int type, String shaderCode){
@@ -74,6 +98,14 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         return shader;
     }
 
+    /**
+     * Creates Bitmap from GLSurface.
+     * @param xStart
+     * @param yStart
+     * @param w
+     * @param h
+     * @return
+     */
     public static Bitmap createBitmapFromGLSurface(int xStart, int yStart, int w, int h){
         int[] openGLBitmapBuffer = new int[w * h];
         int[] bitmapSource = new int[w * h];
