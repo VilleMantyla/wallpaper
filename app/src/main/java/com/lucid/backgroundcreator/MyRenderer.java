@@ -27,20 +27,20 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     private Triangle triangle;
 
+    private Triangle triangle2;
+
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
 
 
-    public MyRenderer(Point screen)
-    {
+    public MyRenderer(Point screen) {
         screenSize = screen;
 
     }
 
-    public Bitmap getWallpaper()
-    {
+    public Bitmap getWallpaper() {
         return wallpaper;
     }
 
@@ -54,7 +54,9 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         randomColor = new float[3];
-        triangle = new Triangle(0.95f, new float[]{0,0,0});
+        triangle = new Triangle(0.95f, new float[]{0,0,0}, new float[]{0.9f,0.29f,0.5f,1.0f});
+        triangle2 = SierpinskiTriangle.centerTriangle(triangle);
+        //triangle2 = new Triangle(0.5f, new float[]{0.2f,0.5f,0.5f,0}, new float[]{0.2f,0.9f,0.5f,1.0f});
     }
 
     public void onDrawFrame(GL10 unused) {
@@ -67,8 +69,9 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-        // Draw shape
+        // Draw shapes
         triangle.draw(mMVPMatrix);
+        triangle2.draw(mMVPMatrix);
 
         /* Create wallpaper */
         wallpaper = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);

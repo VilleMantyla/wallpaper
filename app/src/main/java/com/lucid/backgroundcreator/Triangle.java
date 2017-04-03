@@ -12,10 +12,15 @@ import java.nio.FloatBuffer;
 
 public class Triangle {
 
+    private float[] coordinates;
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
 
     private final int vertexCount;
+
+    private float sideLength;
+
+    private float[] centroid;
 
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
@@ -35,23 +40,55 @@ public class Triangle {
             0.0f,  0.622008459f, 0.0f, // top
             -0.5f, -0.311004243f, 0.0f, // bottom left
             0.5f, -0.311004243f, 0.0f  // bottom right
-
     };
 
     // Set color with red, green, blue and alpha (opacity) values
-    float color[] = { 0.5f, 0.2f, 0.89f, 1.0f };
+    public float[] color;
 
-    public Triangle(float[] coordinates) {
-        vertexCount = coordinates.length / COORDS_PER_VERTEX;
+    public Triangle(float[] coords) {
+        /* TODO centroid?? */
+        coordinates = coords;
+        sideLength = calculateSideLength();
+        vertexCount = coords.length / COORDS_PER_VERTEX;
         glProgram = GLES20.glCreateProgram();
-        initialize(coordinates);
+        initialize(coords);
     }
 
     /* Creates equilateral triangle */
-    public Triangle(float sideLength, float[] centroid) {
+    public Triangle(float sdLength, float[] cntroid, float[] clr) {
+        sideLength = sdLength;
+        centroid = cntroid;
+        color = clr;
         vertexCount = 9 / COORDS_PER_VERTEX;
         glProgram = GLES20.glCreateProgram();
         initialize(calculateCoordinates(sideLength, centroid));
+    }
+
+    /* Upside down equilateral triangle */
+    public Triangle(float[] cntroid, float sdLength, float[] clr) {
+        sideLength = sdLength;
+        centroid = cntroid;
+        color = clr;
+        vertexCount = 9 / COORDS_PER_VERTEX;
+        glProgram = GLES20.glCreateProgram();
+        initialize(calculateCoordinates(centroid, sideLength));
+    }
+
+    public float[] getCentroid() {
+        float[] temp = new float[centroid.length];
+        for (int i=0; i<temp.length; i++) {
+            temp[i] = centroid[i];
+        }
+        return temp;
+    }
+
+    public float getSideLength() {
+        return  sideLength;
+    }
+
+    private float calculateSideLength() {
+        return (float)Math.sqrt((Math.pow((coordinates[0] - coordinates[2]), 2)
+                + Math.pow((coordinates[1] - coordinates[3]), 2)));
     }
 
     private float[] calculateCoordinates(float sideLength, float[] centroid) {
@@ -60,7 +97,24 @@ public class Triangle {
         float[] left = {centroid[0]-sideLength/2, centroid[1]-height/3};
         float[] right = {centroid[0]+sideLength/2, centroid[1]-height/3};
 
-        return new float[]{peak[0], peak[1], 0f, left[0], left[1], 0f, right[0], right[1], 0f};
+        return coordinates = new float[]{
+                peak[0], peak[1], 0f,
+                left[0], left[1], 0f,
+                right[0], right[1], 0f
+        };
+    }
+
+    private float[] calculateCoordinates(float[] centroid, float sideLength) {
+        float height = (float)(sideLength*((Math.sqrt(3.0))/2.0));
+        float[] peak = {centroid[0], centroid[1]-(height*2)/3};
+        float[] left = {centroid[0]-sideLength/2, centroid[1]+height/3};
+        float[] right = {centroid[0]+sideLength/2, centroid[1]+height/3};
+
+        return coordinates = new float[]{
+                peak[0], peak[1], 0f,
+                left[0], left[1], 0f,
+                right[0], right[1], 0f
+        };
     }
 
     private void initialize(float[] coordinates) {
