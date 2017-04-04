@@ -25,9 +25,13 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     private volatile Point screenSize;
 
-    private Triangle triangle;
+    //private Triangle triangle;
 
-    private Triangle triangle2;
+    //private Triangle triangle2;
+
+    private Triangle[] siepinski;
+
+    //private Triangle triangle3;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -54,9 +58,8 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         randomColor = new float[3];
-        triangle = new Triangle(0.95f, new float[]{0,0,0}, new float[]{0.9f,0.29f,0.5f,1.0f});
-        triangle2 = SierpinskiTriangle.centerTriangle(triangle);
-        //triangle2 = new Triangle(0.5f, new float[]{0.2f,0.5f,0.5f,0}, new float[]{0.2f,0.9f,0.5f,1.0f});
+        //triangle = new Triangle(Triangle.exampleTriangle);
+        siepinski = new SierpinskiTriangle().createSierpinksiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
     }
 
     public void onDrawFrame(GL10 unused) {
@@ -70,8 +73,16 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
         // Draw shapes
-        triangle.draw(mMVPMatrix);
-        triangle2.draw(mMVPMatrix);
+        //triangle.draw(mMVPMatrix);
+        //triangle2.draw(mMVPMatrix);
+        //triangle3.draw(mMVPMatrix);
+
+        //System.out.println("SIERPINSKI START DRAWING!");
+        //siepinski[0].draw(mMVPMatrix);
+
+        for (Triangle tri : siepinski) {
+            tri.draw(mMVPMatrix);
+        }
 
         /* Create wallpaper */
         wallpaper = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);

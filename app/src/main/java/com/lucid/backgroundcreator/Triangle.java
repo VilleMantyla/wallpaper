@@ -12,15 +12,11 @@ import java.nio.FloatBuffer;
 
 public class Triangle {
 
-    private float[] coordinates;
+    private float[] vertices;
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
 
     private final int vertexCount;
-
-    private float sideLength;
-
-    private float[] centroid;
 
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
@@ -35,100 +31,25 @@ public class Triangle {
 
     private final int glProgram;
 
-    // this is just an example
+    public static final float[] WHITE = {1f,1f,1f,1f};
+    public static final float[] BLACK = {0f,0f,0f,1f};
+
+    private float[] color;
+
     static float exampleTriangle[] = {   // in counterclockwise order:
             0.0f,  0.622008459f, 0.0f, // top
             -0.5f, -0.311004243f, 0.0f, // bottom left
             0.5f, -0.311004243f, 0.0f  // bottom right
     };
 
-    // Set color with red, green, blue and alpha (opacity) values
-    public float[] color;
-
-    public Triangle(float[] coords) {
-        /* TODO centroid?? */
-        coordinates = coords;
-        sideLength = calculateSideLength();
-        vertexCount = coords.length / COORDS_PER_VERTEX;
-        glProgram = GLES20.glCreateProgram();
-        initialize(coords);
-    }
-
-    /* Creates equilateral triangle */
-    public Triangle(float sdLength, float[] cntroid, float[] clr) {
-        sideLength = sdLength;
-        centroid = cntroid;
+    public Triangle(float[] coordinates, float[] clr) {
         color = clr;
-        vertexCount = 9 / COORDS_PER_VERTEX;
-        glProgram = GLES20.glCreateProgram();
-        initialize(calculateCoordinates(sideLength, centroid));
-    }
-
-    /* Upside down equilateral triangle */
-    public Triangle(float[] cntroid, float sdLength, float[] clr) {
-        sideLength = sdLength;
-        centroid = cntroid;
-        color = clr;
-        vertexCount = 9 / COORDS_PER_VERTEX;
-        glProgram = GLES20.glCreateProgram();
-        initialize(calculateCoordinates(centroid, sideLength));
-    }
-
-    public float[] getCentroid() {
-        float[] temp = new float[centroid.length];
-        for (int i=0; i<temp.length; i++) {
-            temp[i] = centroid[i];
-        }
-        return temp;
-    }
-
-    public float getSideLength() {
-        return  sideLength;
-    }
-
-    private float calculateSideLength() {
-        return (float)Math.sqrt((Math.pow((coordinates[0] - coordinates[2]), 2)
-                + Math.pow((coordinates[1] - coordinates[3]), 2)));
-    }
-
-    private float[] calculateCoordinates(float sideLength, float[] centroid) {
-        float height = (float)(sideLength*((Math.sqrt(3.0))/2.0));
-        float[] peak = {centroid[0], centroid[1]+(height*2)/3};
-        float[] left = {centroid[0]-sideLength/2, centroid[1]-height/3};
-        float[] right = {centroid[0]+sideLength/2, centroid[1]-height/3};
-
-        return coordinates = new float[]{
-                peak[0], peak[1], 0f,
-                left[0], left[1], 0f,
-                right[0], right[1], 0f
-        };
-    }
-
-    private float[] calculateCoordinates(float[] centroid, float sideLength) {
-        float height = (float)(sideLength*((Math.sqrt(3.0))/2.0));
-        float[] peak = {centroid[0], centroid[1]-(height*2)/3};
-        float[] left = {centroid[0]-sideLength/2, centroid[1]+height/3};
-        float[] right = {centroid[0]+sideLength/2, centroid[1]+height/3};
-
-        return coordinates = new float[]{
-                peak[0], peak[1], 0f,
-                left[0], left[1], 0f,
-                right[0], right[1], 0f
-        };
-    }
-
-    private void initialize(float[] coordinates) {
-        //vertexCount = coordinates.length / COORDS_PER_VERTEX;
-        // initialize vertex byte buffer for shape coordinates
+        vertexCount = coordinates.length / COORDS_PER_VERTEX;
         ByteBuffer bb = ByteBuffer.allocateDirect(coordinates.length * 4);
-        // use the device hardware's native byte order
         bb.order(ByteOrder.nativeOrder());
 
-        // create a floating point buffer from the ByteBuffer
         vertexBuffer = bb.asFloatBuffer();
-        // add the coordinates to the FloatBuffer
         vertexBuffer.put(coordinates);
-        // set the buffer to read the first coordinate
         vertexBuffer.position(0);
 
         int vertexShader = MyRenderer.loadShader(GLES20.GL_VERTEX_SHADER,
@@ -136,16 +57,9 @@ public class Triangle {
         int fragmentShader = MyRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER,
                 fragmentShaderCode);
 
-        // create empty OpenGL ES Program
-        //glProgram = GLES20.glCreateProgram();
-
-        // add the vertex shader to program
+        glProgram = GLES20.glCreateProgram();
         GLES20.glAttachShader(glProgram, vertexShader);
-
-        // add the fragment shader to program
         GLES20.glAttachShader(glProgram, fragmentShader);
-
-        // creates OpenGL ES program executables
         GLES20.glLinkProgram(glProgram);
     }
 
