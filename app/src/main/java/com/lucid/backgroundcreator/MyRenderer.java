@@ -27,11 +27,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     //private Triangle triangle;
 
-    //private Triangle triangle2;
-
     private Triangle[] siepinski;
-
-    //private Triangle triangle3;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -41,7 +37,6 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     public MyRenderer(Point screen) {
         screenSize = screen;
-
     }
 
     public Bitmap getWallpaper() {
@@ -73,13 +68,6 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
         // Draw shapes
-        //triangle.draw(mMVPMatrix);
-        //triangle2.draw(mMVPMatrix);
-        //triangle3.draw(mMVPMatrix);
-
-        //System.out.println("SIERPINSKI START DRAWING!");
-        //siepinski[0].draw(mMVPMatrix);
-
         for (Triangle tri : siepinski) {
             tri.draw(mMVPMatrix);
         }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/myFrameLayout" >
+        <com.lucid.backgroundcreator.MyGLSurfaceView
+            android:id="@+id/glSurface"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+        </com.lucid.backgroundcreator.MyGLSurfaceView>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/myFrameLayoutddd"
+        android:orientation="horizontal"
+        android:layout_gravity="top" >
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="changePhoneBackground"
+        android:text="bg"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/menubtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goToMenu"
+        android:text="menu"
+        android:textSize="20sp" />
+    </LinearLayout>
+</FrameLayout>

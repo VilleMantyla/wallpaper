@@ -1,16 +1,18 @@
 package com.lucid.backgroundcreator;
 
 import android.app.WallpaperManager;
+import android.content.Intent;
 import android.graphics.Point;
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class WallpaperActivity extends AppCompatActivity {
 
     private GLSurfaceView GLView;
     private MyGLSurfaceView myGLSurfView;
@@ -20,18 +22,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_wallpaper);
 
-        screenSize = new Point();
-        getWindowManager().getDefaultDisplay().getRealSize(screenSize);
-        System.out.println("screen size is: " + screenSize);
+        //screenSize = new Point();
+        //getWindowManager().getDefaultDisplay().getRealSize(screenSize);
 
-        myGLSurfView = new MyGLSurfaceView(this, screenSize);
+        myGLSurfView = (MyGLSurfaceView) findViewById(R.id.glSurface);//new MyGLSurfaceView(this, screenSize);
+
+        //myGLSurfView.setScreenSize(screenSize);
+
+        //myGLSurfView = new MyGLSurfaceView(this, screenSize);
         GLView = myGLSurfView;
 
-        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.myFrameLayout);
 
-        frameLayout.addView(GLView, 0);
+        //FrameLayout frameLayout = (FrameLayout)findViewById(R.id.myFrameLayout);
+
+        //frameLayout.addView(GLView, 0);
 
     }
 
@@ -54,5 +60,10 @@ public class MainActivity extends AppCompatActivity {
     public void changePhoneBackground(View v) throws IOException {
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
         wallpaperManager.setBitmap(myGLSurfView.getmRenderer().getWallpaper());
+    }
+
+    public void goToMenu(View view) {
+        Intent intent = new Intent(WallpaperActivity.this, MenuActivity.class);
+        startActivity(intent);
     }
 }

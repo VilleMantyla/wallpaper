@@ -1,9 +1,12 @@
 package com.lucid.backgroundcreator;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.opengl.GLSurfaceView;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -13,21 +16,28 @@ import java.nio.FloatBuffer;
  * Created by Ville on 22.3.2017.
  */
 
-class MyGLSurfaceView extends GLSurfaceView {
+public class MyGLSurfaceView extends GLSurfaceView {
 
     private final MyRenderer myRenderer;
+
+    private Point screenSize;
 
     public MyRenderer getmRenderer()
     {
         return myRenderer;
     }
 
-    public MyGLSurfaceView(Context context, Point screen){
-        super(context);
+    public MyGLSurfaceView(Context context, AttributeSet attributeSet){
+        super(context, attributeSet);
 
         setEGLContextClientVersion(2);
 
-        myRenderer = new MyRenderer(screen);
+        screenSize = new Point();
+        if (!isInEditMode()) {
+            Activity activity = (Activity) context;
+            activity.getWindowManager().getDefaultDisplay().getRealSize(screenSize);
+        }
+        myRenderer = new MyRenderer(screenSize);
 
         setRenderer(myRenderer);
 
@@ -59,6 +69,8 @@ class MyGLSurfaceView extends GLSurfaceView {
         return new float[]{red, green, blue};
     }
 
-
+    public void setScreenSize(Point s) {
+        screenSize = s;
+    }
 
 }
