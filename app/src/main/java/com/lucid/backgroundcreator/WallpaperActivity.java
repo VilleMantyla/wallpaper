@@ -1,6 +1,7 @@
 package com.lucid.backgroundcreator;
 
 import android.app.WallpaperManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.opengl.GLSurfaceView;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -60,6 +62,13 @@ public class WallpaperActivity extends AppCompatActivity {
     public void changePhoneBackground(View v) throws IOException {
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
         wallpaperManager.setBitmap(myGLSurfView.getmRenderer().getWallpaper());
+
+        Context context = getApplicationContext();
+        CharSequence text = "Wallpaper changed!";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     public void goToMenu(View view) {

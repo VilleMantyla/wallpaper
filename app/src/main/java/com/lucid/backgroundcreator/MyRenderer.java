@@ -54,7 +54,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         randomColor = new float[3];
         //triangle = new Triangle(Triangle.exampleTriangle);
-        siepinski = new SierpinskiTriangle().createSierpinksiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
+        siepinski = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
     }
 
     public void onDrawFrame(GL10 unused) {

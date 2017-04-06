@@ -17,10 +17,9 @@ public class SierpinskiTriangle {
     private float[] color;
 
     public SierpinskiTriangle() {
-
     }
 
-    public Triangle[] createSierpinksiTri(int level, float[] centroid, float sideLength, float[] clr) {
+    public Triangle[] createSierpinskiTri(int level, float[] centroid, float sideLength, float[] clr) {
         triangles = new Triangle[(int)Math.pow(3, level-1)];
         color = clr;
         //triangleIndex = triangles.length;
@@ -28,11 +27,11 @@ public class SierpinskiTriangle {
         float[] top = {eTria[0], eTria[1]};
         float[] left = {eTria[2], eTria[3]};
         float[] right = {eTria[4], eTria[5]};
-        sierpinskiBOY(level, top, left, right);
+        sierpinskiDivide(level, top, left, right);
         return triangles;
     }
 
-    public void sierpinskiBOY(int level, float[] top, float[] left, float[] right) {
+    public void sierpinskiDivide(int level, float[] top, float[] left, float[] right) {
 
         if(level == 1) {
             triangles[triangleIndex++] = new Triangle(new float[]{
@@ -45,9 +44,9 @@ public class SierpinskiTriangle {
             float[] midright = midpoint(top, right);
             float[] midcenter = midpoint(left, right);
 
-            sierpinskiBOY(level-1, top, midleft, midright);
-            sierpinskiBOY(level-1, midleft, left, midcenter);
-            sierpinskiBOY(level-1, midright, midcenter, right);
+            sierpinskiDivide(level-1, top, midleft, midright);
+            sierpinskiDivide(level-1, midleft, left, midcenter);
+            sierpinskiDivide(level-1, midright, midcenter, right);
         }
     }
 
