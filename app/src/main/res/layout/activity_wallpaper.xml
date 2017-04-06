@@ -6,11 +6,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/myFrameLayout" >
-        <com.lucid.backgroundcreator.MyGLSurfaceView
+        <com.lucid.wallpapercreator.MyGLSurfaceView
             android:id="@+id/glSurface"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
-        </com.lucid.backgroundcreator.MyGLSurfaceView>
+        </com.lucid.wallpapercreator.MyGLSurfaceView>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"

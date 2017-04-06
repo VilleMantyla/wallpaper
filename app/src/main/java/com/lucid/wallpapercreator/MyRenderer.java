@@ -1,4 +1,4 @@
-package com.lucid.backgroundcreator;
+package com.lucid.wallpapercreator;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -20,14 +20,17 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     private volatile float[] randomColor;
 
-    /**/
-    private volatile Bitmap wallpaper;
+    /* Wallpaper in bitmap format */
+    private volatile Bitmap wallpaperBitmap;
+    /* If this is true, wallpaperBitmap will be created
+     in onDrawFrame method on current frame */
+    private boolean creatingWallpaper = false;
 
     private volatile Point screenSize;
 
     //private Triangle triangle;
 
-    private Triangle[] siepinski;
+    private Triangle[] sierpinski;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -39,8 +42,8 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         screenSize = screen;
     }
 
-    public Bitmap getWallpaper() {
-        return wallpaper;
+    public Bitmap getWallpaperBitmap() {
+        return wallpaperBitmap;
     }
 
 
@@ -54,7 +57,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         randomColor = new float[3];
         //triangle = new Triangle(Triangle.exampleTriangle);
-        siepinski = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
+        sierpinski = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
     }
 
     public void onDrawFrame(GL10 unused) {
@@ -68,12 +71,15 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
         // Draw shapes
-        for (Triangle tri : siepinski) {
+        for (Triangle tri : sierpinski) {
             tri.draw(mMVPMatrix);
         }
 
-        /* Create wallpaper */
-        wallpaper = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);
+        // Create a wallpaper on this frame?
+        if(creatingWallpaper) {
+            wallpaperBitmap = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);
+            creatingWallpaper = false;
+        }
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
@@ -133,6 +139,16 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         }
 
         return Bitmap.createBitmap(bitmapSource, w, h, Bitmap.Config.ARGB_8888);
+    }
+
+
+    /*  */
+    public void createWallpaper() {
+        creatingWallpaper = true;
+    }
+
+    public boolean getCreatingWallpaper() {
+        return creatingWallpaper;
     }
 }
 

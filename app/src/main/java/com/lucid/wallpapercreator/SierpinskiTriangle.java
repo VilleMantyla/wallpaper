@@ -1,4 +1,4 @@
-package com.lucid.backgroundcreator;
+package com.lucid.wallpapercreator;
 
 /**
  * Created by Ville on 3.4.2017.

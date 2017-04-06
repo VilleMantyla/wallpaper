@@ -1,4 +1,4 @@
-package com.lucid.backgroundcreator;
+package com.lucid.wallpapercreator;
 
 import org.junit.Test;
 

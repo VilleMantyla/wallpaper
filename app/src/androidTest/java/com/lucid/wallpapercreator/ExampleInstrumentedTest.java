@@ -1,4 +1,4 @@
-package com.lucid.backgroundcreator;
+package com.lucid.wallpapercreator;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

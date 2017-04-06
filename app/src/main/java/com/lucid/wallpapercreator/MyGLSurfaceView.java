@@ -1,4 +1,4 @@
-package com.lucid.backgroundcreator;
+package com.lucid.wallpapercreator;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,11 +6,6 @@ import android.graphics.Point;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 
 /**
  * Created by Ville on 22.3.2017.
@@ -42,7 +37,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         setRenderer(myRenderer);
 
         // Render the view only when there is a change in the drawing data
-        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
     }
 
@@ -55,7 +50,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
             case MotionEvent.ACTION_DOWN:
                 myRenderer.setRandomColor(randomColor());
 
-                requestRender();
+                //requestRender();
         }
 
         return true;
@@ -71,6 +66,11 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
     public void setScreenSize(Point s) {
         screenSize = s;
+    }
+
+    public void createWallpaper() {
+        myRenderer.createWallpaper();
+        //requestRender();
     }
 
 }
