@@ -4,22 +4,22 @@ package com.lucid.wallpapercreator;
  * Created by Ville on 3.4.2017.
  */
 
-public class SierpinskiTriangle {
+public class SierpinskiTriangle implements WallpaperStyle {
 
     private float[] centerPoint;
 
-    private Triangle[] triangles;
+    private static Triangle[] triangles;
 
     public static final float[] BLACK = {0f,0f,0f,1f};
     public static final float[] WHITE = {1f,1f,1f,1f};
 
-    private int triangleIndex = 0;
-    private float[] color;
+    private static int triangleIndex = 0;
+    private static float[] color;
 
     public SierpinskiTriangle() {
     }
 
-    public Triangle[] createSierpinskiTri(int level, float[] centroid, float sideLength, float[] clr) {
+    public static Triangle[] createSierpinskiTri(int level, float[] centroid, float sideLength, float[] clr) {
         triangles = new Triangle[(int)Math.pow(3, level-1)];
         color = clr;
         //triangleIndex = triangles.length;
@@ -31,7 +31,7 @@ public class SierpinskiTriangle {
         return triangles;
     }
 
-    public void sierpinskiDivide(int level, float[] top, float[] left, float[] right) {
+    public static void sierpinskiDivide(int level, float[] top, float[] left, float[] right) {
 
         if(level == 1) {
             triangles[triangleIndex++] = new Triangle(new float[]{
@@ -66,6 +66,21 @@ public class SierpinskiTriangle {
                 left[0], left[1],
                 right[0], right[1],
         };
+    }
+
+    @Override
+    public void piirra(float[] mvpMatrix) {
+        //Triangle[] tyhmaaa = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
+        for (Triangle tri : triangles) {
+            tri.draw(mvpMatrix);
+        }
+    }
+
+    @Override
+    public void createWPStyle() {
+
+        createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
+        //return null;
     }
 
     /*public void sierpinskiTriangle(EquilateralTriangle triangle, int bgColor, int trColor) {

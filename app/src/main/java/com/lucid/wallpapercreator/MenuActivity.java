@@ -1,25 +1,41 @@
 package com.lucid.wallpapercreator;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class MenuActivity extends AppCompatActivity {
 
     private TextView backgrounds;
+    private ViewGroup scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        backgrounds = (TextView) findViewById(R.id.backgrounds);
+    }
 
-        String[] backgroundNames = {"bg 1", "bg 2", "bg 3", "bg 4", "bg 5", "bg 6",
-                "bg 7", "bg 8", "bg 9", "bg 10"};
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
 
-        for(String backgroundName : backgroundNames) {
-            backgrounds.append(backgroundName + "\n\n\n");
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.colors:
+                if (checked)
+                    // Random colors
+                    break;
+            case R.id.sierpinski:
+                if (checked)
+                    // Sierpinski
+                    break;
         }
+
     }
 }

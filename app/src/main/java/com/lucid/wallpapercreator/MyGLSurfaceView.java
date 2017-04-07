@@ -48,20 +48,13 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                myRenderer.setRandomColor(randomColor());
+                //TODO implement menu logic
+                myRenderer.setBackgroundColor(Colors.randomColor());
 
                 //requestRender();
         }
 
         return true;
-    }
-
-    //Debug
-    public float[] randomColor() {
-        float red = (float)Math.random();
-        float green = (float)Math.random();
-        float blue = (float)Math.random();
-        return new float[]{red, green, blue};
     }
 
     public void setScreenSize(Point s) {

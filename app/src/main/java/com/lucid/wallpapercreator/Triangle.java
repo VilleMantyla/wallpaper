@@ -10,7 +10,7 @@ import java.nio.FloatBuffer;
  * Created by Ville on 30.3.2017.
  */
 
-public class Triangle {
+public class Triangle implements WallpaperStyle {
 
     private float[] vertices;
     // number of coordinates per vertex in this array
@@ -36,7 +36,9 @@ public class Triangle {
 
     private float[] color;
 
-    static float exampleTriangle[] = {   // in counterclockwise order:
+    static Triangle exampleTriangle;
+
+    static float exampleTriangleCoordinates[] = {   // in counterclockwise order:
             0.0f,  0.622008459f, 0.0f, // top
             -0.5f, -0.311004243f, 0.0f, // bottom left
             0.5f, -0.311004243f, 0.0f  // bottom right
@@ -122,4 +124,16 @@ public class Triangle {
                     "}";
 
 
+    @Override
+    public void piirra(float[] mvpMatrix) {
+        exampleTriangle.draw(mvpMatrix);
+    }
+
+    @Override
+    public void createWPStyle() {
+        //return null;
+        //TODO make this go away... change logic!
+        exampleTriangle = new Triangle(exampleTriangleCoordinates, Colors.BLUE);
+
+    }
 }

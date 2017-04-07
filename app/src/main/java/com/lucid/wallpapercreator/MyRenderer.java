@@ -18,19 +18,24 @@ import javax.microedition.khronos.egl.EGLConfig;
 
 public class MyRenderer implements GLSurfaceView.Renderer {
 
-    private volatile float[] randomColor;
+    /* The background color of the current frame */
+    private volatile float[] backgroundColor;
 
     /* Wallpaper in bitmap format */
     private volatile Bitmap wallpaperBitmap;
     /* If this is true, wallpaperBitmap will be created
-     in onDrawFrame method on current frame */
+     on onDrawFrame method on current frame */
     private boolean creatingWallpaper = false;
 
     private volatile Point screenSize;
 
     //private Triangle triangle;
 
-    private Triangle[] sierpinski;
+    // TODO wpstyle should come from the menu!!
+    private WallpaperStyle wpstyle = new SierpinskiTriangle();
+
+    //private Triangle[] sierpinski;
+    //private Object oolioo;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -47,23 +52,25 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     }
 
 
-    public void setRandomColor(float[] c)
+    public void setBackgroundColor(float[] c)
     {
-        randomColor = c;
+        backgroundColor = c;
     }
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        randomColor = new float[3];
+        backgroundColor = new float[3];
         //triangle = new Triangle(Triangle.exampleTriangle);
-        sierpinski = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
+        //sierpinski = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
+        //oolioo = wpstyle.getWPSTYLE();
+        wpstyle.createWPStyle();
     }
 
     public void onDrawFrame(GL10 unused) {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        GLES20.glClearColor(randomColor[0], randomColor[1], randomColor[2], 1.0f);
+        GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
         // Set the camera position (View matrix)
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
@@ -71,14 +78,19 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
         // Draw shapes
-        for (Triangle tri : sierpinski) {
-            tri.draw(mMVPMatrix);
-        }
+//        for (Triangle tri : sierpinski) {
+//            tri.draw(mMVPMatrix);
+//        }
+
+        wpstyle.piirra(mMVPMatrix);
 
         // Create a wallpaper on this frame?
         if(creatingWallpaper) {
             wallpaperBitmap = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);
             creatingWallpaper = false;
+            //TODO this is only for debug!  wpstyle should come from the menu!!
+            wpstyle = new Triangle(Triangle.exampleTriangleCoordinates, SierpinskiTriangle.WHITE);
+            wpstyle.createWPStyle();
         }
     }
 
