@@ -126,7 +126,7 @@ public class Triangle implements WallpaperStyle {
 
     @Override
     public void piirra(float[] mvpMatrix) {
-        exampleTriangle.draw(mvpMatrix);
+        draw(mvpMatrix);
     }
 
     @Override

@@ -8,18 +8,19 @@ public class SierpinskiTriangle implements WallpaperStyle {
 
     private float[] centerPoint;
 
-    private static Triangle[] triangles;
+    private Triangle[] triangles;
 
     public static final float[] BLACK = {0f,0f,0f,1f};
     public static final float[] WHITE = {1f,1f,1f,1f};
 
-    private static int triangleIndex = 0;
+    private int triangleIndex = 0;
     private static float[] color;
 
-    public SierpinskiTriangle() {
+    public SierpinskiTriangle(int level, float[] centroid, float sideLength, float[] clr) {
+        createSierpinskiTri(level, centroid, sideLength, clr);
     }
 
-    public static Triangle[] createSierpinskiTri(int level, float[] centroid, float sideLength, float[] clr) {
+    public  Triangle[] createSierpinskiTri(int level, float[] centroid, float sideLength, float[] clr) {
         triangles = new Triangle[(int)Math.pow(3, level-1)];
         color = clr;
         //triangleIndex = triangles.length;
@@ -31,7 +32,7 @@ public class SierpinskiTriangle implements WallpaperStyle {
         return triangles;
     }
 
-    public static void sierpinskiDivide(int level, float[] top, float[] left, float[] right) {
+    public  void sierpinskiDivide(int level, float[] top, float[] left, float[] right) {
 
         if(level == 1) {
             triangles[triangleIndex++] = new Triangle(new float[]{
@@ -71,6 +72,8 @@ public class SierpinskiTriangle implements WallpaperStyle {
     @Override
     public void piirra(float[] mvpMatrix) {
         //Triangle[] tyhmaaa = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
+        //SierpinskiTriangle sier = StyleSelector.sierpinski;
+        //Triangle[] tris = sier.triangles;
         for (Triangle tri : triangles) {
             tri.draw(mvpMatrix);
         }
@@ -82,20 +85,4 @@ public class SierpinskiTriangle implements WallpaperStyle {
         createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
         //return null;
     }
-
-    /*public void sierpinskiTriangle(EquilateralTriangle triangle, int bgColor, int trColor) {
-        drawTriangle(triangle, trColor);
-
-        if (triangle.getSideLength() < 200.0) {
-            return;
-        } else {
-            EquilateralTriangle[] triangles;
-            triangles = divideTriangle(triangle);
-            sierpinskiTriangle(triangles[1], bgColor, trColor);
-            sierpinskiTriangle(triangles[2], bgColor, trColor);
-            sierpinskiTriangle(triangles[3], bgColor, trColor);
-            destroyTriangle(triangles[0], bgColor);
-        }
-    }*/
-
 }

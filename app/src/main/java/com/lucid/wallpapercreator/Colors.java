@@ -9,6 +9,7 @@ public class Colors {
     public static final float[] WHITE = {1f,1f,1f,1f};
     public static final float[] BLACK = {0f,0f,0f,1f};
     public static final float[] BLUE = {0f,0.0f,1f,1f};
+    public static final float[] RED = {1f,0.0f,0f,1f};
 
 
     public static float[] randomColor() {

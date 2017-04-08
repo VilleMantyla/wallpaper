@@ -32,7 +32,8 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     //private Triangle triangle;
 
     // TODO wpstyle should come from the menu!!
-    private WallpaperStyle wpstyle = new SierpinskiTriangle();
+    private WallpaperStyle wpstyle;
+    private String tyylilyyli;
 
     //private Triangle[] sierpinski;
     //private Object oolioo;
@@ -41,6 +42,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
+    public boolean styleChanged = false;
 
 
     public MyRenderer(Point screen) {
@@ -64,7 +66,8 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         //triangle = new Triangle(Triangle.exampleTriangle);
         //sierpinski = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
         //oolioo = wpstyle.getWPSTYLE();
-        wpstyle.createWPStyle();
+        //wpstyle.createWPStyle();
+        wpstyle = new Triangle(Triangle.exampleTriangleCoordinates, Colors.BLACK);
     }
 
     public void onDrawFrame(GL10 unused) {
@@ -89,8 +92,14 @@ public class MyRenderer implements GLSurfaceView.Renderer {
             wallpaperBitmap = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);
             creatingWallpaper = false;
             //TODO this is only for debug!  wpstyle should come from the menu!!
-            wpstyle = new Triangle(Triangle.exampleTriangleCoordinates, SierpinskiTriangle.WHITE);
-            wpstyle.createWPStyle();
+
+            //wpstyle = new Triangle(Triangle.exampleTriangleCoordinates, SierpinskiTriangle.WHITE);
+            //wpstyle.createWPStyle();
+        }
+
+        if(styleChanged) {
+            styleChanged = false;
+            wpstyle = StyleSelector.getNewStyle(tyylilyyli);
         }
     }
 
@@ -161,6 +170,10 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     public boolean getCreatingWallpaper() {
         return creatingWallpaper;
+    }
+
+    public void setWpstyle(String newStyle) {
+        tyylilyyli = newStyle;
     }
 }
 

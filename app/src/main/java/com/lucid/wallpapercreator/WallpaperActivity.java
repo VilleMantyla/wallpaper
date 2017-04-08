@@ -24,18 +24,13 @@ public class WallpaperActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallpaper);
 
-        //screenSize = new Point();
-        //getWindowManager().getDefaultDisplay().getRealSize(screenSize);
+        //Intent intent = getIntent();
 
-        myGLSurfView = (MyGLSurfaceView) findViewById(R.id.glSurface);//new MyGLSurfaceView(this, screenSize);
+        //System.out.println(intent.getStringExtra("style"));
 
-        //myGLSurfView.setScreenSize(screenSize);
+        myGLSurfView = (MyGLSurfaceView) findViewById(R.id.glSurface);
 
-        //myGLSurfView = new MyGLSurfaceView(this, screenSize);
         GLView = myGLSurfView;
-
-        //FrameLayout frameLayout = (FrameLayout)findViewById(R.id.myFrameLayout);
-
     }
 
     //Full screen, immersive
@@ -50,6 +45,17 @@ public class WallpaperActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String returnedResult = data.getData().toString();
+                System.out.println(returnedResult);
+                    myGLSurfView.getmRenderer().setWpstyle(returnedResult);
+                    myGLSurfView.getmRenderer().styleChanged = true;
+            }
+        }
     }
 
     /** Changes the phone's background. Wallpaper will be created only
@@ -78,7 +84,10 @@ public class WallpaperActivity extends AppCompatActivity {
     }
 
     public void goToMenu(View view) {
-        Intent intent = new Intent(WallpaperActivity.this, MenuActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(WallpaperActivity.this, MenuActivity.class);
+        //startActivity(intent);
+
+
+        startActivityForResult(new Intent(WallpaperActivity.this, MenuActivity.class), 1);
     }
 }
