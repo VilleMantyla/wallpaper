@@ -4,35 +4,26 @@ package com.lucid.wallpapercreator;
  * Created by Ville on 3.4.2017.
  */
 
-public class SierpinskiTriangle implements WallpaperStyle {
+public class SierpinskiTriangle implements Wallpaper {
 
     private float[] centerPoint;
 
     private Triangle[] triangles;
 
-    public static final float[] BLACK = {0f,0f,0f,1f};
-    public static final float[] WHITE = {1f,1f,1f,1f};
-
     private int triangleIndex = 0;
     private static float[] color;
 
     public SierpinskiTriangle(int level, float[] centroid, float sideLength, float[] clr) {
-        createSierpinskiTri(level, centroid, sideLength, clr);
-    }
-
-    public  Triangle[] createSierpinskiTri(int level, float[] centroid, float sideLength, float[] clr) {
         triangles = new Triangle[(int)Math.pow(3, level-1)];
         color = clr;
-        //triangleIndex = triangles.length;
         float[] eTria = equilateralTriangle(sideLength, centroid);
         float[] top = {eTria[0], eTria[1]};
         float[] left = {eTria[2], eTria[3]};
         float[] right = {eTria[4], eTria[5]};
         sierpinskiDivide(level, top, left, right);
-        return triangles;
     }
 
-    public  void sierpinskiDivide(int level, float[] top, float[] left, float[] right) {
+    public void sierpinskiDivide(int level, float[] top, float[] left, float[] right) {
 
         if(level == 1) {
             triangles[triangleIndex++] = new Triangle(new float[]{
@@ -70,19 +61,10 @@ public class SierpinskiTriangle implements WallpaperStyle {
     }
 
     @Override
-    public void piirra(float[] mvpMatrix) {
-        //Triangle[] tyhmaaa = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
-        //SierpinskiTriangle sier = StyleSelector.sierpinski;
-        //Triangle[] tris = sier.triangles;
+    public void draw(float[] mvpMatrix) {
         for (Triangle tri : triangles) {
             tri.draw(mvpMatrix);
         }
     }
 
-    @Override
-    public void createWPStyle() {
-
-        createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
-        //return null;
-    }
 }

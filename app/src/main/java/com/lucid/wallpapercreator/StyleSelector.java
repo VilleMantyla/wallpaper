@@ -1,7 +1,5 @@
 package com.lucid.wallpapercreator;
 
-import javax.crypto.Cipher;
-
 /**
  * Created by Ville on 8.4.2017.
  */
@@ -14,16 +12,27 @@ public final class StyleSelector {
             0.5f, -0.311004243f, 0.0f  // bottom right
     };
 
-    public static SierpinskiTriangle sierpinski = new SierpinskiTriangle(6, new float[]{0,0}, 0.95f, Colors.BLUE);
+    public static Wallpaper getNewStyle(String style) {
 
-    public static WallpaperStyle getNewStyle(String style) {
-        if(style.equals("triangle")) {
-            return new Triangle(someCrds, Colors.WHITE);
+        Wallpaper wp;
+
+        switch (style) {
+            case "triangle":
+                wp = new Triangle(someCrds, Colors.WHITE);
+                break;
+            case "sierpinski":
+                wp = new SierpinskiTriangle(6, new float[]{0,0}, 0.95f, Colors.BLUE);
+                break;
+            case "mandelbrot":
+                wp = new Mandelbrot();
+                break;
+            default:
+                wp = new Triangle(someCrds, Colors.RED);
+                break;
+
         }
-        if(style.equals("sierpinski")) {
-            return new SierpinskiTriangle(6, new float[]{0,0}, 0.95f, Colors.BLUE);
-        }
-        return new Triangle(someCrds, Colors.RED);
+
+        return wp;
     }
 
 

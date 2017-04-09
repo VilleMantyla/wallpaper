@@ -29,20 +29,17 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     private volatile Point screenSize;
 
-    //private Triangle triangle;
+    private Wallpaper wpstyle;
+    private String wallpaperStyle;
+    /* Should wallpaper style be changed on this frame? */
+    private boolean styleChanged = false;
 
-    // TODO wpstyle should come from the menu!!
-    private WallpaperStyle wpstyle;
-    private String tyylilyyli;
-
-    //private Triangle[] sierpinski;
-    //private Object oolioo;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
-    public boolean styleChanged = false;
+
 
 
     public MyRenderer(Point screen) {
@@ -80,26 +77,18 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-        // Draw shapes
-//        for (Triangle tri : sierpinski) {
-//            tri.draw(mMVPMatrix);
-//        }
-
-        wpstyle.piirra(mMVPMatrix);
+        wpstyle.draw(mMVPMatrix);
 
         // Create a wallpaper on this frame?
         if(creatingWallpaper) {
             wallpaperBitmap = createBitmapFromGLSurface(0, 0, screenSize.x, screenSize.y);
             creatingWallpaper = false;
-            //TODO this is only for debug!  wpstyle should come from the menu!!
-
-            //wpstyle = new Triangle(Triangle.exampleTriangleCoordinates, SierpinskiTriangle.WHITE);
-            //wpstyle.createWPStyle();
         }
 
+        // Change the wallpaper style on this frame?
         if(styleChanged) {
             styleChanged = false;
-            wpstyle = StyleSelector.getNewStyle(tyylilyyli);
+            wpstyle = StyleSelector.getNewStyle(wallpaperStyle);
         }
     }
 
@@ -173,7 +162,11 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     }
 
     public void setWpstyle(String newStyle) {
-        tyylilyyli = newStyle;
+        wallpaperStyle = newStyle;
+    }
+
+    public void changeStyle() {
+        styleChanged = true;
     }
 }
 

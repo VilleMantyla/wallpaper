@@ -1,5 +1,6 @@
 package com.lucid.wallpapercreator;
 
+import android.app.Activity;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
@@ -24,12 +25,7 @@ public class WallpaperActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallpaper);
 
-        //Intent intent = getIntent();
-
-        //System.out.println(intent.getStringExtra("style"));
-
         myGLSurfView = (MyGLSurfaceView) findViewById(R.id.glSurface);
-
         GLView = myGLSurfView;
     }
 
@@ -53,13 +49,13 @@ public class WallpaperActivity extends AppCompatActivity {
                 String returnedResult = data.getData().toString();
                 System.out.println(returnedResult);
                     myGLSurfView.getmRenderer().setWpstyle(returnedResult);
-                    myGLSurfView.getmRenderer().styleChanged = true;
+                    myGLSurfView.getmRenderer().changeStyle();
             }
         }
     }
 
-    /** Changes the phone's background. Wallpaper will be created only
-     * on this method.
+    /** Changes the phone's wallpaper. Wallpaper will be created only
+     * when this method is called.
      */
     public void changePhoneBackground(View v) throws IOException {
 
@@ -84,10 +80,7 @@ public class WallpaperActivity extends AppCompatActivity {
     }
 
     public void goToMenu(View view) {
-        //Intent intent = new Intent(WallpaperActivity.this, MenuActivity.class);
-        //startActivity(intent);
-
-
-        startActivityForResult(new Intent(WallpaperActivity.this, MenuActivity.class), 1);
+        Intent intent = new Intent(WallpaperActivity.this, MenuActivity.class);
+        startActivityForResult(intent, 1);
     }
 }

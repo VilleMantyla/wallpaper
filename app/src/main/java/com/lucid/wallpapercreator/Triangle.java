@@ -10,7 +10,7 @@ import java.nio.FloatBuffer;
  * Created by Ville on 30.3.2017.
  */
 
-public class Triangle implements WallpaperStyle {
+public class Triangle implements Wallpaper {
 
     private float[] vertices;
     // number of coordinates per vertex in this array
@@ -66,7 +66,7 @@ public class Triangle implements WallpaperStyle {
     }
 
 
-
+    @Override
     public void draw(float[] mvpMatrix) {
         // Add program to OpenGL ES environment
         GLES20.glUseProgram(glProgram);
@@ -108,7 +108,6 @@ public class Triangle implements WallpaperStyle {
 
     }
 
-
     private final String vertexShaderCode =
             "uniform mat4 uMVPMatrix;" +
                     "attribute vec4 vPosition;" +
@@ -123,17 +122,4 @@ public class Triangle implements WallpaperStyle {
                     "  gl_FragColor = vColor;" +
                     "}";
 
-
-    @Override
-    public void piirra(float[] mvpMatrix) {
-        draw(mvpMatrix);
-    }
-
-    @Override
-    public void createWPStyle() {
-        //return null;
-        //TODO make this go away... change logic!
-        exampleTriangle = new Triangle(exampleTriangleCoordinates, Colors.BLUE);
-
-    }
 }
