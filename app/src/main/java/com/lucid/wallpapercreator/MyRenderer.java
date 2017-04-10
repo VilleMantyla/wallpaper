@@ -168,5 +168,9 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     public void changeStyle() {
         styleChanged = true;
     }
+
+    public void changeWpstylecolor() {
+        //wpstyle.
+    }
 }
 

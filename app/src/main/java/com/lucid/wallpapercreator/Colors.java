@@ -16,7 +16,7 @@ public class Colors {
         float red = (float)Math.random();
         float green = (float)Math.random();
         float blue = (float)Math.random();
-        return new float[]{red, green, blue};
+        return new float[]{red, green, blue, 1f};
     }
 
     public static float[] rgbToOpenGLrgba(int[] rgb) {

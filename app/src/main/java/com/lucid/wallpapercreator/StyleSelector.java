@@ -1,5 +1,7 @@
 package com.lucid.wallpapercreator;
 
+import android.graphics.Point;
+
 /**
  * Created by Ville on 8.4.2017.
  */
@@ -12,10 +14,15 @@ public final class StyleSelector {
             0.5f, -0.311004243f, 0.0f  // bottom right
     };
 
+    public static Point screenSize;
+
+    private static Mandelbrot mandelbrot;
+
     public static Wallpaper getNewStyle(String style) {
 
         Wallpaper wp;
 
+        //TODO create only once!
         switch (style) {
             case "triangle":
                 wp = new Triangle(someCrds, Colors.WHITE);
@@ -24,7 +31,10 @@ public final class StyleSelector {
                 wp = new SierpinskiTriangle(6, new float[]{0,0}, 0.95f, Colors.BLUE);
                 break;
             case "mandelbrot":
-                wp = new Mandelbrot();
+                if(mandelbrot == null) {
+                    mandelbrot = new Mandelbrot(screenSize);
+                }
+                wp = mandelbrot;
                 break;
             default:
                 wp = new Triangle(someCrds, Colors.RED);

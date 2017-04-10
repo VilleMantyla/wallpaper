@@ -27,11 +27,15 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         setEGLContextClientVersion(2);
 
-        screenSize = new Point();
+
         if (!isInEditMode()) {
+            screenSize = new Point();
             Activity activity = (Activity) context;
             activity.getWindowManager().getDefaultDisplay().getRealSize(screenSize);
+            //Initialise StyleSelector
+            StyleSelector.screenSize = screenSize;
         }
+
         myRenderer = new MyRenderer(screenSize);
 
         setRenderer(myRenderer);
@@ -50,6 +54,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
             case MotionEvent.ACTION_DOWN:
                 //TODO implement menu logic
                 myRenderer.setBackgroundColor(Colors.randomColor());
+                myRenderer.changeWpstylecolor();
 
                 //requestRender();
         }
@@ -57,8 +62,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
         return true;
     }
 
-    public void setScreenSize(Point s) {
-        screenSize = s;
+    public Point getScreenSize() {
+        return screenSize;
     }
 
     public void createWallpaper() {
