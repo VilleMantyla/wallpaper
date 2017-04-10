@@ -36,8 +36,9 @@
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/terrain"
                 android:textSize="20sp"
-                android:text="Style four"
+                android:text="Terrain"
                 android:padding="16dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton

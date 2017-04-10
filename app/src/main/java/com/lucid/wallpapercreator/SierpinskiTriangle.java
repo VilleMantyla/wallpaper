@@ -67,4 +67,11 @@ public class SierpinskiTriangle implements Wallpaper {
         }
     }
 
+    @Override
+    public void changeToRandomColor() {
+        for (Triangle tri : triangles) {
+            tri.changeToRandomColor();
+        }
+    }
+
 }

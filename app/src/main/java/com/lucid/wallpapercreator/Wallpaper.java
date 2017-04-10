@@ -10,4 +10,6 @@ public interface Wallpaper {
 
     void draw(float[] mvpMatrix);
 
+    void changeToRandomColor();
+
 }

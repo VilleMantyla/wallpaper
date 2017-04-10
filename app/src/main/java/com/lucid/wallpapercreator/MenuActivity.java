@@ -42,6 +42,10 @@ public class MenuActivity extends AppCompatActivity {
                     style = "mandelbrot";
                 }
                 break;
+            case R.id.terrain:
+                if(checked) {
+                    style = "terrain";
+                }
 
         }
 

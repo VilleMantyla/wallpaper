@@ -14,8 +14,8 @@ import java.util.LinkedList;
  */
 
 public class Mandelbrot implements Wallpaper {
-    int width = 600; //resolution - max should be phone's resolution
-    int height = 600; //resolution - max should be phone's resolution
+    int width = 360; //resolution - max should be the phone's resolution
+    int height = 360; //resolution - max should be the phone's resolution
     LinkedList<Float> openGLPoints = new LinkedList<Float>();
     float openGLRatio = 1.0f/width;
     float[] glreadypoints;
@@ -31,21 +31,20 @@ public class Mandelbrot implements Wallpaper {
 
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
-
-    float[] color1 = Colors.BLACK;
-    float[] color2 = Colors.RED;
-
     int maxIterations = 250;
 
     //public String[][] kuvio;
 
     double zoom = 2.5/width;
 
+    float[] color;
+
 
     public Mandelbrot(Point screenSize) {
         //Define OpenGL point size according to phone's aspect ratio
         openGLPointSize = screenSize.x/(float)width;
         createVertexShader(openGLPointSize);
+        color = Colors.randomColor();
 
         //kuvio = new String[width][height];
         for(int pixelY = 0; pixelY < height; pixelY++) {
@@ -123,15 +122,13 @@ public class Mandelbrot implements Wallpaper {
 
         GLES20.glEnableVertexAttribArray(positionHandle);
 
-        int colorHandle = GLES20.glGetUniformLocation(glProgram, "vColor");
-
         GLES20.glVertexAttribPointer(positionHandle, COORDS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
                 vertexStride, vertexData);
 
-        colorHandle = GLES20.glGetUniformLocation(glProgram, "vColor");
+        int colorHandle = GLES20.glGetUniformLocation(glProgram, "vColor");
 
-        GLES20.glUniform4fv(colorHandle, 1, Colors.WHITE, 0);
+        GLES20.glUniform4fv(colorHandle, 1, color, 0);
 
         // get handle to shape's transformation matrix
         int mMVPMatrixHandle = GLES20.glGetUniformLocation(glProgram, "uMVPMatrix");
@@ -144,6 +141,11 @@ public class Mandelbrot implements Wallpaper {
 
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(positionHandle);
+    }
+
+    @Override
+    public void changeToRandomColor() {
+        color = Colors.randomColor();
     }
 
 }

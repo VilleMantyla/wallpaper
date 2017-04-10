@@ -102,6 +102,11 @@ public class Triangle implements Wallpaper {
 
     }
 
+    @Override
+    public void changeToRandomColor() {
+        color = Colors.randomColor();
+    }
+
     private final String vertexShaderCode =
             "uniform mat4 uMVPMatrix;" +
                     "attribute vec4 vPosition;" +

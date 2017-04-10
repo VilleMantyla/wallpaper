@@ -18,6 +18,8 @@ public final class StyleSelector {
 
     private static Mandelbrot mandelbrot;
 
+    private static SierpinskiTriangle sierpinskiTriangle;
+
     public static Wallpaper getNewStyle(String style) {
 
         Wallpaper wp;
@@ -25,24 +27,24 @@ public final class StyleSelector {
         //TODO create only once!
         switch (style) {
             case "triangle":
-                wp = new Triangle(someCrds, Colors.WHITE);
-                break;
+                return new Triangle(someCrds, Colors.randomColor());
+                //break;
             case "sierpinski":
-                wp = new SierpinskiTriangle(6, new float[]{0,0}, 0.95f, Colors.BLUE);
-                break;
+                return (sierpinskiTriangle == null) ? sierpinskiTriangle = new SierpinskiTriangle(6, new float[]{0,0}, 0.95f, Colors.randomColor()) : sierpinskiTriangle;
+                //break;
             case "mandelbrot":
-                if(mandelbrot == null) {
-                    mandelbrot = new Mandelbrot(screenSize);
-                }
-                wp = mandelbrot;
-                break;
+                //mandelbrot = (mandelbrot == null) ? new Mandelbrot(screenSize) : mandelbrot;
+                return (mandelbrot == null) ? mandelbrot = new Mandelbrot(screenSize) : mandelbrot;
+                //break;
+            case "terrain":
+                return new Terrain();
             default:
-                wp = new Triangle(someCrds, Colors.RED);
-                break;
+                return wp = new Triangle(someCrds, Colors.RED);
+                //break;
 
         }
 
-        return wp;
+        //return wp;
     }
 
 
