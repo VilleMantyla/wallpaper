@@ -1,6 +1,5 @@
 package com.lucid.wallpapercreator;
 
-import android.graphics.Color;
 import android.graphics.Point;
 import android.opengl.GLES20;
 
@@ -19,6 +18,8 @@ public class Mandelbrot implements Wallpaper {
     LinkedList<Float> openGLPoints = new LinkedList<Float>();
     float openGLRatio = 1.0f/width;
     float[] glreadypoints;
+
+    float[] backgroundColor = new float[4];
 
     private  float openGLPointSize;
 
@@ -44,7 +45,7 @@ public class Mandelbrot implements Wallpaper {
         //Define OpenGL point size according to phone's aspect ratio
         openGLPointSize = screenSize.x/(float)width;
         createVertexShader(openGLPointSize);
-        color = Colors.randomColor();
+        color = ColorHelper.randomColor();
 
         //kuvio = new String[width][height];
         for(int pixelY = 0; pixelY < height; pixelY++) {
@@ -117,6 +118,9 @@ public class Mandelbrot implements Wallpaper {
 
     @Override
     public void draw(float[] mvpMatrix) {
+
+        GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
+
         GLES20.glUseProgram(glProgram);
         positionHandle = GLES20.glGetAttribLocation(glProgram, "vPosition");
 
@@ -144,8 +148,9 @@ public class Mandelbrot implements Wallpaper {
     }
 
     @Override
-    public void changeToRandomColor() {
-        color = Colors.randomColor();
+    public void changeColor(float[] c) {
+        backgroundColor = ColorHelper.randomColor();
+        color = c;
     }
 
 }

@@ -103,8 +103,8 @@ public class Triangle implements Wallpaper {
     }
 
     @Override
-    public void changeToRandomColor() {
-        color = Colors.randomColor();
+    public void changeColor(float[] c) {
+        color = c;
     }
 
     private final String vertexShaderCode =

@@ -53,8 +53,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 //TODO implement menu logic
-                myRenderer.setBackgroundColor(Colors.randomColor()); //Background color
-                myRenderer.changeWpstylecolor(); //Shape color
+                myRenderer.setBackgroundColor(ColorHelper.randomColor()); //Background color
+                myRenderer.changeWpstylecolor(ColorHelper.randomColor()); //Shape color
         }
 
         return true;

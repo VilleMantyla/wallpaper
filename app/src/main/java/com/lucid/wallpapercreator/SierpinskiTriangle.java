@@ -1,5 +1,8 @@
 package com.lucid.wallpapercreator;
 
+import android.graphics.Color;
+import android.opengl.GLES20;
+
 /**
  * Created by Ville on 3.4.2017.
  */
@@ -13,7 +16,21 @@ public class SierpinskiTriangle implements Wallpaper {
     private int triangleIndex = 0;
     private static float[] color;
 
+    private boolean monochrome;
+
     public SierpinskiTriangle(int level, float[] centroid, float sideLength, float[] clr) {
+        monochrome = true;
+        triangles = new Triangle[(int)Math.pow(3, level-1)];
+        color = clr;
+        float[] eTria = equilateralTriangle(sideLength, centroid);
+        float[] top = {eTria[0], eTria[1]};
+        float[] left = {eTria[2], eTria[3]};
+        float[] right = {eTria[4], eTria[5]};
+        sierpinskiDivide(level, top, left, right);
+    }
+
+    public SierpinskiTriangle(int level, float[] centroid, float sideLength, float[] clr, boolean solid) {
+        monochrome = solid;
         triangles = new Triangle[(int)Math.pow(3, level-1)];
         color = clr;
         float[] eTria = equilateralTriangle(sideLength, centroid);
@@ -62,16 +79,31 @@ public class SierpinskiTriangle implements Wallpaper {
 
     @Override
     public void draw(float[] mvpMatrix) {
+        if(monochrome)
+            GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
+        else
+            GLES20.glClearColor(0, 0, 0, 1.0f);
         for (Triangle tri : triangles) {
             tri.draw(mvpMatrix);
         }
     }
 
+    float[] backgroundColor = new float[4];
+
     @Override
-    public void changeToRandomColor() {
-        for (Triangle tri : triangles) {
-            tri.changeToRandomColor();
+    public void changeColor(float[] c) {
+        backgroundColor = ColorHelper.randomColor();
+        if(monochrome) {
+
+            for (Triangle tri : triangles) {
+                tri.changeColor(c);
+            }
+        }else {
+            for (Triangle tri : triangles) {
+                tri.changeColor(ColorHelper.randomColor());
+            }
         }
+
     }
 
 }

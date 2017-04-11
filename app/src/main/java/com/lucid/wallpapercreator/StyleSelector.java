@@ -20,17 +20,23 @@ public final class StyleSelector {
 
     private static SierpinskiTriangle sierpinskiTriangle;
 
+    private static PlainColor plainColor;
+
     public static Wallpaper getNewStyle(String style) {
 
         Wallpaper wp;
 
         //TODO create only once!
         switch (style) {
-            case "triangle":
-                return new Triangle(someCrds, Colors.randomColor());
+            case "background":
+                return (plainColor == null) ? plainColor = new PlainColor() : plainColor;
                 //break;
+            case "lines":
+                return new RandomLines(7);
             case "sierpinski":
-                return (sierpinskiTriangle == null) ? sierpinskiTriangle = new SierpinskiTriangle(6, new float[]{0,0}, 0.95f, Colors.randomColor()) : sierpinskiTriangle;
+                return new SierpinskiTriangle(6, new float[]{0,0}, 0.95f, ColorHelper.randomColor());
+            case "colorful_sierpinski":
+                return (sierpinskiTriangle == null) ? sierpinskiTriangle = new SierpinskiTriangle(6, new float[]{0,0}, 0.95f, ColorHelper.randomColor(), false) : sierpinskiTriangle;
                 //break;
             case "mandelbrot":
                 //mandelbrot = (mandelbrot == null) ? new Mandelbrot(screenSize) : mandelbrot;
@@ -39,7 +45,7 @@ public final class StyleSelector {
             case "terrain":
                 return new Terrain(3);
             default:
-                return new Triangle(someCrds, Colors.RED);
+                return new Triangle(someCrds, ColorHelper.RED);
                 //break;
 
         }

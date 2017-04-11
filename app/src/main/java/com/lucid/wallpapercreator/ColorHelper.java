@@ -4,7 +4,7 @@ package com.lucid.wallpapercreator;
  * Created by Ville on 7.4.2017.
  */
 
-public class Colors {
+public class ColorHelper {
 
     public static final float[] WHITE = {1f,1f,1f,1f};
     public static final float[] BLACK = {0f,0f,0f,1f};

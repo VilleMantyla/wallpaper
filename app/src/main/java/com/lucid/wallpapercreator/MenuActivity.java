@@ -27,14 +27,24 @@ public class MenuActivity extends AppCompatActivity {
 
         // Check which radio button was clicked
         switch(view.getId()) {
-            case R.id.triangle:
+            case R.id.background:
                 if (checked) {
-                    style = "triangle";
+                    style = "background";
                 }
                     break;
+            case R.id.lines:
+                if(checked) {
+                    style = "lines";
+                }
+                break;
             case R.id.sierpinski:
-                if (checked) {
+                if(checked) {
                     style = "sierpinski";
+                }
+                break;
+            case R.id.colorful_sierpinski:
+                if (checked) {
+                    style = "colorful_sierpinski";
                 }
                 break;
             case R.id.mandelbrot:

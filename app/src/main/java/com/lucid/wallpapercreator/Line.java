@@ -32,7 +32,7 @@ public class Line implements Wallpaper {
     //private short drawOrder[] = { 0,1,2,0}; // order to draw vertices
 
     public Line(float[] line) {
-        color = Colors.WHITE;
+        color = ColorHelper.WHITE;
         lineCoordinates = line;
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -127,8 +127,8 @@ public class Line implements Wallpaper {
     }
 
     @Override
-    public void changeToRandomColor() {
-        color = Colors.randomColor();
+    public void changeColor(float[] c) {
+        color = ColorHelper.randomColor();
     }
 
 

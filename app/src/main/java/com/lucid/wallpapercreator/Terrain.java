@@ -2,11 +2,7 @@ package com.lucid.wallpapercreator;
 
 import android.opengl.GLES20;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 import java.util.LinkedList;
-import java.util.regex.Matcher;
 
 /**
  * Created by Ville on 10.4.2017.
@@ -20,7 +16,7 @@ public class Terrain implements Wallpaper{
     private Line line;
 
     private int level;
-
+    private float[] backgroundColor;
 
 
     public Terrain(int lvl) {
@@ -31,6 +27,7 @@ public class Terrain implements Wallpaper{
     }
 
     private void generateTerrain() {
+        backgroundColor = new float[4];
         lineCoordsList = new LinkedList<>();
         float[] leftStart = {-1f,0f};
         lineCoordsList.add(leftStart[0]); lineCoordsList.add(leftStart[1]);
@@ -99,13 +96,14 @@ public class Terrain implements Wallpaper{
     @Override
     public void draw(float[] mvpMatrix) {
         //createLineFromList();
+        GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
         line.draw(mvpMatrix);
     }
 
     @Override
-    public void changeToRandomColor() {
+    public void changeColor(float[] c) {
         //generateTerrain();
-        line.changeToRandomColor();
+        line.changeColor(ColorHelper.randomColor());
     }
 
 }
