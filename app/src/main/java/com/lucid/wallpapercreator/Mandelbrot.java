@@ -13,15 +13,14 @@ import java.util.LinkedList;
  */
 
 public class Mandelbrot implements Wallpaper {
-    int width = 360; //resolution - max should be the phone's resolution
-    int height = 360; //resolution - max should be the phone's resolution
-    LinkedList<Float> openGLPoints = new LinkedList<Float>();
-    float openGLRatio = 1.0f/width;
-    float[] glreadypoints;
+    private int width = 360; //resolution - max should be the phone's resolution
+    private int height = 360; //resolution - max should be the phone's resolution
+    private LinkedList<Float> pointList = new LinkedList<Float>();
+    private float openGLRatio = 1.0f/width;
+    /*Points to be drawn*/
+    private float[] points;
 
-    float[] backgroundColor = new float[4];
-
-    private  float openGLPointSize;
+    private float[] backgroundColor = new float[4];
 
     private final int glProgram;
 
@@ -32,22 +31,20 @@ public class Mandelbrot implements Wallpaper {
 
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
-    int maxIterations = 250;
-
-    //public String[][] kuvio;
+    private int maxIterations = 250;
 
     double zoom = 2.5/width;
 
-    float[] color;
+    /*Initial color of the Mandelbrot set*/
+    private float[] color;
 
 
     public Mandelbrot(Point screenSize) {
-        //Define OpenGL point size according to phone's aspect ratio
-        openGLPointSize = screenSize.x/(float)width;
+        //Define value for gl_PointSize according to the phone's aspect ratio
+        float openGLPointSize = screenSize.x/(float)width;
         createVertexShader(openGLPointSize);
         color = ColorHelper.randomColor();
 
-        //kuvio = new String[width][height];
         for(int pixelY = 0; pixelY < height; pixelY++) {
             for(int pixelX = 0; pixelX < width; pixelX++) {
                 //TODO this fix centering
@@ -63,19 +60,20 @@ public class Mandelbrot implements Wallpaper {
                     iteration++;
                 }
                 if(iteration<maxIterations) {
-                    //colorss
+                    //coloring the different iterations can be implemented here
                 }
-                else {//belongs to mandelbrot set
-                    openGLPoints.add((pixelX - width / 2) * openGLRatio);
-                    openGLPoints.add((pixelY - width / 2) * openGLRatio);
+                else {
+                    //belongs to mandelbrot set
+                    pointList.add((pixelX - width / 2) * openGLRatio);
+                    pointList.add((pixelY - width / 2) * openGLRatio);
                 }
             }
         }
 
-        glreadypoints = listToFloatArray(openGLPoints);
+        points = listToFloatArray(pointList);
 
-        vertexData = ByteBuffer.allocateDirect(glreadypoints.length *BYTES_PER_FLOAT).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        vertexData.put(glreadypoints);
+        vertexData = ByteBuffer.allocateDirect(points.length *BYTES_PER_FLOAT).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        vertexData.put(points);
         vertexData.position(0);
 
         int vertexShader = MyRenderer.loadShader(GLES20.GL_VERTEX_SHADER,
@@ -134,16 +132,13 @@ public class Mandelbrot implements Wallpaper {
 
         GLES20.glUniform4fv(colorHandle, 1, color, 0);
 
-        // get handle to shape's transformation matrix
         int mMVPMatrixHandle = GLES20.glGetUniformLocation(glProgram, "uMVPMatrix");
 
-        // Pass the projection and view transformation to the shader
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
 
         //http://stackoverflow.com/questions/22296510/what-does-stride-mean-in-opengles
-        GLES20.glDrawArrays(GLES20.GL_POINTS, 0, glreadypoints.length/COORDS_PER_VERTEX);
+        GLES20.glDrawArrays(GLES20.GL_POINTS, 0, points.length/COORDS_PER_VERTEX);
 
-        // Disable vertex array
         GLES20.glDisableVertexAttribArray(positionHandle);
     }
 

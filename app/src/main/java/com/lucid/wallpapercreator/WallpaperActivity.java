@@ -1,10 +1,8 @@
 package com.lucid.wallpapercreator;
 
-import android.app.Activity;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,8 +16,6 @@ public class WallpaperActivity extends AppCompatActivity {
     private GLSurfaceView GLView;
     private MyGLSurfaceView myGLSurfView;
 
-    //private Point screenSize;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +25,7 @@ public class WallpaperActivity extends AppCompatActivity {
         GLView = myGLSurfView;
     }
 
-    //Full screen, immersive
+    //Full screen, immersive mode
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -43,13 +39,15 @@ public class WallpaperActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
+    /**
+     * This method is called when returning from the menu.
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 String returnedResult = data.getData().toString();
                 System.out.println(returnedResult);
-                    myGLSurfView.getmRenderer().setWpstyle(returnedResult);
-                    myGLSurfView.getmRenderer().changeStyle();
+                    myGLSurfView.getMyRenderer().setWallpaperStyle(returnedResult);
             }
         }
     }
@@ -57,21 +55,22 @@ public class WallpaperActivity extends AppCompatActivity {
     /** Changes the phone's wallpaper. Wallpaper will be created only
      * when this method is called.
      */
-    public void changePhoneBackground(View v) throws IOException {
+    public void changeWallpaper(View v) throws IOException {
 
         myGLSurfView.createWallpaper();
 
+        //Waiting for the background to be created
         while(true) {
-            if(myGLSurfView.getmRenderer().getCreatingWallpaper())
+            if(myGLSurfView.getMyRenderer().getCreatingWallpaperLock())
                 continue;
             else
                 break;
         }
 
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
-        wallpaperManager.setBitmap(myGLSurfView.getmRenderer().getWallpaperBitmap());
+        wallpaperManager.setBitmap(myGLSurfView.getMyRenderer().getWallpaperBitmap());
 
-        /* TOAST */
+        //Show a toast to notify the user when the wallpaper is changed
         Context context = getApplicationContext();
         CharSequence text = "Wallpaper changed!";
         int duration = Toast.LENGTH_SHORT;

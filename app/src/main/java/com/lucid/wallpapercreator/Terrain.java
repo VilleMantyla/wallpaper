@@ -71,14 +71,12 @@ public class Terrain implements Wallpaper{
 
     @Override
     public void draw(float[] mvpMatrix) {
-        //createLineFromList();
         GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
         line.draw(mvpMatrix);
     }
 
     @Override
     public void changeColor(float[] c) {
-        //generateTerrain();
         line.changeColor(ColorHelper.randomColor());
     }
 

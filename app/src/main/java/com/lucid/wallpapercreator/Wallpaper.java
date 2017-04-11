@@ -3,7 +3,8 @@ package com.lucid.wallpapercreator;
 import android.graphics.Point;
 
 /**
- * Created by Ville on 7.4.2017.
+ * Every new wallpaper should implement this interface show
+ * that the renderer can draw it by calling the draw function.
  */
 
 public interface Wallpaper {

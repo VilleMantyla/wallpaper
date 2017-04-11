@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Wallpaper Creator</string>
+    <string name="set_wallpaper">set as wallpaper</string>
+    <string name="menu">change style</string>
+    <string name="random_color">Random color</string>
+    <string name="random_lines">Random lines</string>
+    <string name="sierpinski_triangle">Sierpinski triangle</string>
+    <string name="colorful_sierpinski_triangle">Colorful Sierpinski triangle</string>
+    <string name="mandelbrot_set">Mandelbrot set</string>
+    <string name="random_terrain">Random terrain</string>
 </resources>

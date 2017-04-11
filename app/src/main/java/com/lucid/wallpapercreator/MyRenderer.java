@@ -18,9 +18,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 
 public class MyRenderer implements GLSurfaceView.Renderer {
 
-    /* The background color of the current frame */
-    private volatile float[] backgroundColor;
-
     /* Wallpaper in bitmap format */
     private volatile Bitmap wallpaperBitmap;
     /* If this is true, wallpaperBitmap will be created
@@ -29,7 +26,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     private volatile Point screenSize;
 
-    private Wallpaper wpstyle;
+    private Wallpaper wallpaper;
     private String wallpaperStyle;
     /* Should wallpaper style be changed on this frame? */
     private boolean styleChanged = false;
@@ -49,18 +46,11 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     }
 
 
-    public void setBackgroundColor(float[] c)
-    {
-        backgroundColor = c;
-    }
-
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // Set the initial background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        backgroundColor = new float[3];
-
-        wpstyle = new PlainColor();
+        wallpaper = new PlainColor();
     }
 
     public void onDrawFrame(GL10 unused) {
@@ -72,7 +62,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
         //Draw the wallpaper
-        wpstyle.draw(mMVPMatrix);
+        wallpaper.draw(mMVPMatrix);
 
         // Create a wallpaper on this frame?
         if(creatingWallpaper) {
@@ -83,7 +73,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         // Change the wallpaper style on this frame?
         if(styleChanged) {
             styleChanged = false;
-            wpstyle = StyleSelector.getNewStyle(wallpaperStyle);
+            wallpaper = PredefinedStyles.getNewStyle(wallpaperStyle);
         }
     }
 
@@ -100,11 +90,8 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     public static int loadShader(int type, String shaderCode){
 
-        // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
-        // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
         int shader = GLES20.glCreateShader(type);
 
-        // add the source code to the shader and compile it
         GLES20.glShaderSource(shader, shaderCode);
         GLES20.glCompileShader(shader);
 
@@ -112,7 +99,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     }
 
     /**
-     * Creates Bitmap from GLSurface.
+     * Creates a bitmap from the GLSurface.
      */
     public static Bitmap createBitmapFromGLSurface(int xStart, int yStart, int w, int h){
         int[] openGLBitmapBuffer = new int[w * h];
@@ -141,26 +128,22 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         return Bitmap.createBitmap(bitmapSource, w, h, Bitmap.Config.ARGB_8888);
     }
 
-
-    /*  */
+    /* Create a wallpaper from this frame */
     public void createWallpaper() {
         creatingWallpaper = true;
     }
-
-    public boolean getCreatingWallpaper() {
+    /* Check if the wallpaper is still under construction  */
+    public boolean getCreatingWallpaperLock() {
         return creatingWallpaper;
     }
-
-    public void setWpstyle(String newStyle) {
+    /* Set new wallpaper style */
+    public void setWallpaperStyle(String newStyle) {
         wallpaperStyle = newStyle;
-    }
-
-    public void changeStyle() {
         styleChanged = true;
     }
 
-    public void changeWpstylecolor(float[] color) {
-        wpstyle.changeColor(color);
+    public void changeColors(float[] color) {
+        wallpaper.changeColor(color);
     }
 }
 

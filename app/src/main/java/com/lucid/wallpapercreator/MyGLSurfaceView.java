@@ -17,7 +17,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
     private Point screenSize;
 
-    public MyRenderer getmRenderer()
+    public MyRenderer getMyRenderer()
     {
         return myRenderer;
     }
@@ -27,46 +27,38 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         setEGLContextClientVersion(2);
 
-
         if (!isInEditMode()) {
             screenSize = new Point();
             Activity activity = (Activity) context;
             activity.getWindowManager().getDefaultDisplay().getRealSize(screenSize);
-            //Initialise StyleSelector
-            StyleSelector.screenSize = screenSize;
+            //Initialise PredefinedStyles
+            PredefinedStyles.screenSize = screenSize;
         }
 
         myRenderer = new MyRenderer(screenSize);
 
         setRenderer(myRenderer);
-
-        // Render the view only when there is a change in the drawing data
-        //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-
     }
 
+    /**
+     * Changes the shape and background color (depending on the style)
+     * when user touches this view.
+     */
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        //float x = e.getX();
-        //float y = e.getY();
-
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //TODO implement menu logic
-                myRenderer.setBackgroundColor(ColorHelper.randomColor()); //Background color
-                myRenderer.changeWpstylecolor(ColorHelper.randomColor()); //Shape color
+                //change colors of the current wallpaper style
+                myRenderer.changeColors(ColorHelper.randomColor());
         }
-
         return true;
     }
 
-    public Point getScreenSize() {
-        return screenSize;
-    }
-
+    /**
+     * Tells the renderer to create a wallpaper of the current frame.
+     */
     public void createWallpaper() {
         myRenderer.createWallpaper();
-        //requestRender();
     }
 
 }

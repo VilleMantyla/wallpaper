@@ -1,22 +1,27 @@
 package com.lucid.wallpapercreator;
 
-import android.graphics.Color;
 import android.opengl.GLES20;
 
 /**
- * Created by Ville on 3.4.2017.
+ * Implements Sierpinski triangle.
  */
 
 public class SierpinskiTriangle implements Wallpaper {
 
-    private float[] centerPoint;
-
+    /*All the "smallest" triangles in Sierpinski*/
     private Triangle[] triangles;
-
+    /*Only used to help with indexing the triangles*/
     private int triangleIndex = 0;
+    /*Background color of the frame this shape is drawn on*/
+    private float[] backgroundColor = new float[4];
+
+    /*Initial color of the triangles*/
     private static float[] color;
 
+    /* Should the Sierpinski triangle be monochrome */
     private boolean monochrome;
+
+
 
     public SierpinskiTriangle(int level, float[] centroid, float sideLength, float[] clr) {
         monochrome = true;
@@ -40,8 +45,7 @@ public class SierpinskiTriangle implements Wallpaper {
         sierpinskiDivide(level, top, left, right);
     }
 
-    public void sierpinskiDivide(int level, float[] top, float[] left, float[] right) {
-
+    private void sierpinskiDivide(int level, float[] top, float[] left, float[] right) {
         if(level == 1) {
             triangles[triangleIndex++] = new Triangle(new float[]{
                     top[0], top[1], 0f,
@@ -63,7 +67,6 @@ public class SierpinskiTriangle implements Wallpaper {
         return new float[]{(point1[0] + point2[0])/2f, (point1[1] + point2[1])/2f};
     }
 
-
     private static float[] equilateralTriangle(float sideLength, float[] centroid) {
         float height = (float)(sideLength*((Math.sqrt(3.0))/2.0));
         float[] peak = {centroid[0], centroid[1]+(height*2)/3};
@@ -77,24 +80,31 @@ public class SierpinskiTriangle implements Wallpaper {
         };
     }
 
+    /**
+     * Draws the monochrome Sierpinski on a black background. Non monochrome
+     * Sierpinski is drawn on a background randomly colored.
+     */
     @Override
     public void draw(float[] mvpMatrix) {
         if(monochrome)
             GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
         else
-            GLES20.glClearColor(0, 0, 0, 1.0f);
+            GLES20.glClearColor(0, 0, 0, 1.0f); //black
         for (Triangle tri : triangles) {
             tri.draw(mvpMatrix);
         }
     }
 
-    float[] backgroundColor = new float[4];
-
+    /**
+     * If the monochrome boolean is true, the Sierpinski triangle will be
+     * monochrome and have the color value of c. If monochrome  false, all the
+     * triangles will be colored randomly. Also a new background color is
+     * randomized for the monochrome Sierpinski.
+     */
     @Override
     public void changeColor(float[] c) {
-        backgroundColor = ColorHelper.randomColor();
         if(monochrome) {
-
+            backgroundColor = ColorHelper.randomColor();
             for (Triangle tri : triangles) {
                 tri.changeColor(c);
             }

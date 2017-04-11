@@ -14,7 +14,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/background"
                 android:textSize="20sp"
-                android:text="Change background color"
+                android:text="@string/random_color"
                 android:padding="16dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton
@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/lines"
                 android:textSize="20sp"
-                android:text="Random lines"
+                android:text="@string/random_lines"
                 android:padding="16dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/sierpinski"
                 android:textSize="20sp"
-                android:text="Sierpinski triangle"
+                android:text="@string/sierpinski_triangle"
                 android:padding="16dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/colorful_sierpinski"
                 android:textSize="20sp"
-                android:text="Colorful Sierpinski triangle"
+                android:text="@string/colorful_sierpinski_triangle"
                 android:padding="16dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/mandelbrot"
                 android:textSize="20sp"
-                android:text="Mandelbrot set"
+                android:text="@string/mandelbrot_set"
                 android:padding="16dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/terrain"
                 android:textSize="20sp"
-                android:text="Random terrain"
+                android:text="@string/random_terrain"
                 android:padding="16dp"
                 android:onClick="onRadioButtonClicked"/>
         </RadioGroup>
