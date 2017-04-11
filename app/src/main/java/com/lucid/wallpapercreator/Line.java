@@ -27,10 +27,12 @@ public class Line implements Wallpaper {
             -0.5f, 0.5f,  // bottom
             0.5f,  0.4f,   // left
             -0.5f,  0.4f }; // right
+    private float[] color;
 
     //private short drawOrder[] = { 0,1,2,0}; // order to draw vertices
 
     public Line(float[] line) {
+        color = Colors.WHITE;
         lineCoordinates = line;
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -95,13 +97,16 @@ public class Line implements Wallpaper {
         int colorHandle = GLES20.glGetUniformLocation(glProgram, "vColor");
 
         // Set color for drawing the triangle
-        GLES20.glUniform4fv(colorHandle, 1, Colors.RED, 0);
+        GLES20.glUniform4fv(colorHandle, 1, color, 0);
 
         // get handle to shape's transformation matrix
-        //int mMVPMatrixHandle = GLES20.glGetUniformLocation(glProgram, "uMVPMatrix");
+        int mMVPMatrixHandle = GLES20.glGetUniformLocation(glProgram, "uMVPMatrix");
 
         // Pass the projection and view transformation to the shader
-        //GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
+
+
+        GLES20.glLineWidth(3f);
 
         // Draw the line
         //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
@@ -123,7 +128,7 @@ public class Line implements Wallpaper {
 
     @Override
     public void changeToRandomColor() {
-        //
+        color = Colors.randomColor();
     }
 
 

@@ -37,9 +37,9 @@ public final class StyleSelector {
                 return (mandelbrot == null) ? mandelbrot = new Mandelbrot(screenSize) : mandelbrot;
                 //break;
             case "terrain":
-                return new Terrain();
+                return new Terrain(3);
             default:
-                return wp = new Triangle(someCrds, Colors.RED);
+                return new Triangle(someCrds, Colors.RED);
                 //break;
 
         }

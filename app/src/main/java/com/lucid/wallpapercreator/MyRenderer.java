@@ -64,7 +64,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         //sierpinski = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
         //oolioo = wpstyle.getWPSTYLE();
         //wpstyle.createWPStyle();
-        wpstyle = new Terrain();//new Triangle(Triangle.exampleTriangleCoordinates, Colors.BLACK);
+        wpstyle = new Terrain(5);//new Triangle(Triangle.exampleTriangleCoordinates, Colors.BLACK);
     }
 
     public void onDrawFrame(GL10 unused) {

@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/sierpinski"
                 android:textSize="20sp"
-                android:text="Sierpinski triangle"
+                android:text="Colorful Sierpinski triangle"
                 android:padding="16dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/mandelbrot"
                 android:textSize="20sp"
-                android:text="Mandelbrot"
+                android:text="Mandelbrot set"
                 android:padding="16dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/terrain"
                 android:textSize="20sp"
-                android:text="Terrain"
+                android:text="Random terrain"
                 android:padding="16dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton
