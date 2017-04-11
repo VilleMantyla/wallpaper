@@ -21,8 +21,6 @@ public class Terrain implements Wallpaper{
 
     public Terrain(int lvl) {
         level = lvl;
-        //int numberofFloatsRequired = ((int)Math.pow(level, 2)+1)*4;
-
         generateTerrain();
     }
 
@@ -40,37 +38,15 @@ public class Terrain implements Wallpaper{
     }
 
     private void createLineFromList() {
-        //if(lineee == null) {
-        //int numberofFloatsRequired = ((int)Math.pow(level, 2)+1)*4;
         float[] lineCoordinates = new float[lineCoordsList.size()*2-2]; //TODO this just works but how???
-        System.out.println("listan pituus: " + lineCoordinates.length);
 
-        //when level is 2
-        lineCoordinates[0] = lineCoordsList.get(0);
-        lineCoordinates[1] = lineCoordsList.get(1);
-        lineCoordinates[2] = lineCoordsList.get(2);
-        lineCoordinates[3] = lineCoordsList.get(3);
-        /*lineCoordinates[4] = points.get(2);
-        lineCoordinates[5] = points.get(3);
-        lineCoordinates[6] = points.get(4);
-        lineCoordinates[7] = points.get(5);
-        lineCoordinates[8] = points.get(4);
-        lineCoordinates[9] = points.get(5);
-        lineCoordinates[10] = points.get(6);
-        lineCoordinates[11] = points.get(7);
-        lineCoordinates[12] = points.get(6);
-        lineCoordinates[13] = points.get(7);
-        lineCoordinates[14] = points.get(8);
-        lineCoordinates[15] = points.get(9);
-        */
-
-        int iter = 0;
-        for (int i = 4; i + 4 < lineCoordinates.length; i += 4) {
-            lineCoordinates[i] = lineCoordsList.get(i - 2 - iter * 2);
-            lineCoordinates[i + 1] = lineCoordsList.get(i - 1 - iter * 2);
-            lineCoordinates[i + 2] = lineCoordsList.get(i - iter * 2);
-            lineCoordinates[i + 3] = lineCoordsList.get(i + 1 - iter * 2);
-            iter++;
+        int iteration = 0;
+        for (int i = 0; i + 4 < lineCoordinates.length; i += 4) {
+            lineCoordinates[i] = lineCoordsList.get(i - iteration * 2);
+            lineCoordinates[i + 1] = lineCoordsList.get(i + 1 - iteration * 2);
+            lineCoordinates[i + 2] = lineCoordsList.get(i + 2 - iteration * 2);
+            lineCoordinates[i + 3] = lineCoordsList.get(i + 3 - iteration * 2);
+            iteration++;
         }
         line = new Line(lineCoordinates);
     }

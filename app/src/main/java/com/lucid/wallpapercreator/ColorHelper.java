@@ -21,9 +21,9 @@ public class ColorHelper {
 
     public static float[] rgbToOpenGLrgba(int[] rgb) {
         float[] glrgba = new float[4];
-        glrgba[0] = rgb[0]/256.0f;
-        glrgba[1] = rgb[1]/256.0f;
-        glrgba[2] = rgb[2]/256.0f;
+        glrgba[0] = rgb[0]/255.0f;
+        glrgba[1] = rgb[1]/255.0f;
+        glrgba[2] = rgb[2]/255.0f;
         glrgba[3] = 1.0f;
         return glrgba;
     }

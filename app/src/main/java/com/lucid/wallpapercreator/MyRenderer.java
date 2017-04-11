@@ -40,8 +40,6 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
 
-
-
     public MyRenderer(Point screen) {
         screenSize = screen;
     }
@@ -57,27 +55,23 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
-        // Set the background frame color
+        // Set the initial background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        //GLES20.glClearColor(color[0], color[1], color[2], 1f);
+
         backgroundColor = new float[3];
-        //triangle = new Triangle(Triangle.exampleTriangle);
-        //sierpinski = new SierpinskiTriangle().createSierpinskiTri(6, new float[]{0,0}, 0.95f, Triangle.WHITE);
-        //oolioo = wpstyle.getWPSTYLE();
-        //wpstyle.createWPStyle();
+
         wpstyle = new PlainColor();
     }
 
     public void onDrawFrame(GL10 unused) {
-        // Redraw background color
+        // Clears the buffers
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        //GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
         // Set the camera position (View matrix)
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-
-        // Calculate the projection and view transformation
+        // Calculates the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
+        //Draw the wallpaper
         wpstyle.draw(mMVPMatrix);
 
         // Create a wallpaper on this frame?
@@ -119,11 +113,6 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
     /**
      * Creates Bitmap from GLSurface.
-     * @param xStart
-     * @param yStart
-     * @param w
-     * @param h
-     * @return
      */
     public static Bitmap createBitmapFromGLSurface(int xStart, int yStart, int w, int h){
         int[] openGLBitmapBuffer = new int[w * h];
