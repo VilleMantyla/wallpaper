@@ -16,6 +16,6 @@ public class PlainColor implements Wallpaper {
 
     @Override
     public void changeColor(float[] c) {
-        color = ColorHelper.randomColor();
+        color = c;
     }
 }

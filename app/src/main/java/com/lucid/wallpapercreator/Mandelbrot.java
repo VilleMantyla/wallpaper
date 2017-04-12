@@ -20,8 +20,6 @@ public class Mandelbrot implements Wallpaper {
     /*Points to be drawn*/
     private float[] points;
 
-    private float[] backgroundColor = new float[4];
-
     private final int glProgram;
 
     private static final int COORDS_PER_VERTEX = 2;
@@ -32,7 +30,7 @@ public class Mandelbrot implements Wallpaper {
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     private int maxIterations = 250;
-
+    /*Zoom*/
     double zoom = 2.5/width;
 
     /*Initial color of the Mandelbrot set*/
@@ -97,7 +95,6 @@ public class Mandelbrot implements Wallpaper {
 
     private String vertexShaderCode;
 
-
     private final String fragmentShaderCode =
             "precision mediump float;" +
                     "uniform vec4 vColor;" +
@@ -116,8 +113,6 @@ public class Mandelbrot implements Wallpaper {
 
     @Override
     public void draw(float[] mvpMatrix) {
-
-        GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
 
         GLES20.glUseProgram(glProgram);
         positionHandle = GLES20.glGetAttribLocation(glProgram, "vPosition");
@@ -144,7 +139,6 @@ public class Mandelbrot implements Wallpaper {
 
     @Override
     public void changeColor(float[] c) {
-        backgroundColor = ColorHelper.randomColor();
         color = c;
     }
 

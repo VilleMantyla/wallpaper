@@ -73,7 +73,7 @@ public class Line implements Wallpaper {
 
     @Override
     public void changeColor(float[] c) {
-        color = ColorHelper.randomColor();
+        color = c;
     }
 
     private final String vertexShaderCode =

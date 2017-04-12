@@ -31,11 +31,14 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     /* Should wallpaper style be changed on this frame? */
     private boolean styleChanged = false;
 
+    private float[] backgroundColor;
+
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
+
 
     public MyRenderer(Point screen) {
         screenSize = screen;
@@ -47,15 +50,18 @@ public class MyRenderer implements GLSurfaceView.Renderer {
 
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+        // Initial color value
+        backgroundColor = ColorHelper.BLACK;
         // Set the initial background frame color
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+        GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
         wallpaper = new PlainColor();
     }
 
     public void onDrawFrame(GL10 unused) {
         // Clears the buffers
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        // Set the background color
+        GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
         // Set the camera position (View matrix)
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         // Calculates the projection and view transformation
@@ -140,6 +146,10 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     public void setWallpaperStyle(String newStyle) {
         wallpaperStyle = newStyle;
         styleChanged = true;
+    }
+
+    public void setBackgroundColor(float[] newColor) {
+        backgroundColor = newColor;
     }
 
     public void changeColors(float[] color) {

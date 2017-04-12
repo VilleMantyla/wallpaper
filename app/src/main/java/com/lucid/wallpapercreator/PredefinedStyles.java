@@ -19,6 +19,8 @@ public final class PredefinedStyles {
 
     private static PlainColor plainColor;
 
+    private static RandomLines lines;
+
     private static SierpinskiTriangle solidSierpinski;
 
     private static SierpinskiTriangle colorfulSierpinski;
@@ -26,7 +28,7 @@ public final class PredefinedStyles {
     private static Mandelbrot mandelbrot;
 
     /**
-     * Returns a wallpaper according to a given style.
+     * Returns a predefined wallpaper style according to a given style.
      */
     public static Wallpaper getNewStyle(String style) {
 
@@ -34,7 +36,7 @@ public final class PredefinedStyles {
             case "background":
                 return (plainColor == null) ? plainColor = new PlainColor() : plainColor;
             case "lines":
-                return new RandomLines(7);
+                return (lines == null) ? lines = new RandomLines(7) : lines;
             case "sierpinski":
                 return (solidSierpinski == null) ?
                         solidSierpinski = new SierpinskiTriangle(

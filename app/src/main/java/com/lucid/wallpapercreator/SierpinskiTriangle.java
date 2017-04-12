@@ -12,8 +12,6 @@ public class SierpinskiTriangle implements Wallpaper {
     private Triangle[] triangles;
     /*Only used to help with indexing the triangles*/
     private int triangleIndex = 0;
-    /*Background color of the frame this shape is drawn on*/
-    private float[] backgroundColor = new float[4];
 
     /*Initial color of the triangles*/
     private static float[] color;
@@ -86,10 +84,6 @@ public class SierpinskiTriangle implements Wallpaper {
      */
     @Override
     public void draw(float[] mvpMatrix) {
-        if(monochrome)
-            GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
-        else
-            GLES20.glClearColor(0, 0, 0, 1.0f); //black
         for (Triangle tri : triangles) {
             tri.draw(mvpMatrix);
         }
@@ -97,14 +91,12 @@ public class SierpinskiTriangle implements Wallpaper {
 
     /**
      * If the monochrome boolean is true, the Sierpinski triangle will be
-     * monochrome and have the color value of c. If monochrome  false, all the
-     * triangles will be colored randomly. Also a new background color is
-     * randomized for the monochrome Sierpinski.
+     * monochrome and have the color value of c. If monochrome is false, all the
+     * triangles will be colored randomly.
      */
     @Override
     public void changeColor(float[] c) {
         if(monochrome) {
-            backgroundColor = ColorHelper.randomColor();
             for (Triangle tri : triangles) {
                 tri.changeColor(c);
             }

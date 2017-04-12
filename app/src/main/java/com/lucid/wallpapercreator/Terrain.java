@@ -1,22 +1,18 @@
 package com.lucid.wallpapercreator;
 
-import android.opengl.GLES20;
-
 import java.util.LinkedList;
 
 /**
- * Created by Ville on 10.4.2017.
- * 2D midpoint displacement
+ * 2D midpoint displacement used to create a terrain.
  */
 
 public class Terrain implements Wallpaper{
-
+    /*Coordinates of the line that represent the terrain*/
     private LinkedList<Float> lineCoordsList;
-
+    /*The terrain*/
     private Line line;
-
+    /*Complexity of the terrain*/
     private int level;
-    private float[] backgroundColor;
 
 
     public Terrain(int lvl) {
@@ -25,7 +21,6 @@ public class Terrain implements Wallpaper{
     }
 
     private void generateTerrain() {
-        backgroundColor = new float[4];
         lineCoordsList = new LinkedList<>();
         float[] leftStart = {-1f,0f};
         lineCoordsList.add(leftStart[0]); lineCoordsList.add(leftStart[1]);
@@ -33,12 +28,11 @@ public class Terrain implements Wallpaper{
         midPointDisplacement(leftStart, rightStart, level);
         lineCoordsList.add(rightStart[0]); lineCoordsList.add(rightStart[1]);
 
-        createLineFromList();
-
+        createContinousLine();
     }
 
-    private void createLineFromList() {
-        float[] lineCoordinates = new float[lineCoordsList.size()*2-2]; //TODO this just works but how???
+    private void createContinousLine() {
+        float[] lineCoordinates = new float[lineCoordsList.size()*2-2]; //TODO ???
 
         int iteration = 0;
         for (int i = 0; i + 4 < lineCoordinates.length; i += 4) {
@@ -56,7 +50,7 @@ public class Terrain implements Wallpaper{
             return;
         }
         float[] mid = midpoint(left, right);
-        mid[1] = mid[1]+(float)Math.random()*0.1f; //TODO FIX THIS
+        mid[1] = mid[1]+(float)Math.random()*0.1f; //TODO Make this... nicer
         midPointDisplacement(left, mid, level-1);
         lineCoordsList.add(mid[0]); lineCoordsList.add(mid[1]);
         midPointDisplacement(mid, right, level-1);
@@ -71,13 +65,12 @@ public class Terrain implements Wallpaper{
 
     @Override
     public void draw(float[] mvpMatrix) {
-        GLES20.glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], 1.0f);
         line.draw(mvpMatrix);
     }
 
     @Override
     public void changeColor(float[] c) {
-        line.changeColor(ColorHelper.randomColor());
+        line.changeColor(c);
     }
 
 }

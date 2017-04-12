@@ -33,7 +33,7 @@ public class RandomLines implements Wallpaper {
 
     @Override
     public void draw(float[] mvpMatrix) {
-        GLES20.glClearColor(0f,0f,0f,1f);
+        //GLES20.glClearColor(0f,0f,0f,1f);
         for(Line line : lines) {
             line.draw(mvpMatrix);
         }
@@ -42,7 +42,7 @@ public class RandomLines implements Wallpaper {
     @Override
     public void changeColor(float[] c) {
         for(Line line : lines) {
-            line.changeColor(ColorHelper.WHITE);
+            line.changeColor(c);
         }
     }
 }

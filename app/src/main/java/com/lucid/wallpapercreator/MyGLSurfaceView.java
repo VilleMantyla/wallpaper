@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * Created by Ville on 22.3.2017.
+ *
  */
 
 public class MyGLSurfaceView extends GLSurfaceView {
@@ -41,14 +41,17 @@ public class MyGLSurfaceView extends GLSurfaceView {
     }
 
     /**
-     * Changes the shape and background color (depending on the style)
-     * when user touches this view.
+     * Changes the shape and background color when user touches this view.
+     * Colors are chosen randomly because there is no UI for user to choose
+     * the colors.
      */
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //change colors of the current wallpaper style
+                //Change the background color to a random color
+                myRenderer.setBackgroundColor(ColorHelper.randomColor());
+                //Change the shape color to a random color
                 myRenderer.changeColors(ColorHelper.randomColor());
         }
         return true;
